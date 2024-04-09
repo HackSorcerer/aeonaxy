@@ -2,7 +2,12 @@
 module.exports = {
   content: ["./src/**/*.{html,js}"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        progressBar: '#169f7f',
+        diabledGrey: '#e7e6e7',
+      },
+    },
   },
   plugins: [],
 }
