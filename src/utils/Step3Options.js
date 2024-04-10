@@ -1,59 +1,62 @@
-// Step3Options.js
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faEquals, faMinus, faTimes, faDivide, faQuestion } from '@fortawesome/free-solid-svg-icons';
-import { useState } from 'react';
+import { useState } from "react";
+import { BlockMath } from "react-katex";
+import "katex/dist/katex.min.css";
 
 const Step3Options = ({ onSelect }) => {
   const options = [
     {
-      value: "plus",
-      label: "Arithmetic",
-      icon: faPlus,
+      equation: "5 \\times \\frac{1}{2} = ?",
+      answer: "Arithmetic",
+      subtext: "Introductory",
     },
     {
-      value: "equals",
-      label: "Introductory",
-      icon: faEquals,
+      equation: "3x + 5 = 4",
+      answer: "Basic Algebra",
+      subtext: "Foundational",
     },
     {
-      value: "minus",
-      label: "Basic Algebra",
-      icon: faMinus,
+      equation: "x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}",
+      answer: "Intermediate Algebra",
+      subtext: "Intermediate",
     },
     {
-      value: "times",
-      label: "Intermediate Algebra",
-      icon: faTimes,
-    },
-    {
-      value: "divide",
-      label: "Calculus",
-      icon: faDivide,
-    },
-    {
-      value: "question",
-      label: "Advanced",
-      icon: faQuestion,
+      equation: "\\int_{0}^{L} x^{2} dx = ?",
+      answer: "Calculus",
+      subtext: "Advanced",
     },
   ];
 
   const [selectedOption, setSelectedOption] = useState(null);
 
-  const handleSelect = (value) => {
-    setSelectedOption(value);
-    onSelect(value);
+  const handleSelect = (index) => {
+    setSelectedOption(index);
+    onSelect(options[index].answer);
   };
 
   return (
-    <div className="step3-options flex flex-col mx-auto">
-      {options.map(option => (
+    <div className="step3-options flex mx-auto">
+      {options.map((option, index) => (
         <div
-          key={option.value}
-          className={`step3-option p-4 rounded-md shadow-md cursor-pointer flex items-center mb-4 ${selectedOption === option.value ? 'bg-blue-100' : ''}`}
-          onClick={() => handleSelect(option.value)}
+          key={index}
+          className={`step3-option p-4 rounded-md shadow-md cursor-pointer flex flex-col items-center mr-4 ${
+            selectedOption === index ? "bg-blue-100 border-yellow-400 border-2" : ""
+          }`}
+          onClick={() => handleSelect(index)}
         >
-          <FontAwesomeIcon icon={option.icon} className={`text-blue-500 mr-2 ${selectedOption === option.value ? 'text-blue-700' : ''}`} />
-          <span className={`label text-sm font-semibold ${selectedOption === option.value ? 'text-blue-700' : ''}`}>{option.label}</span>
+          <BlockMath
+            math={option.equation}
+            className={`equation text-sm font-semibold mb-1`}
+          />
+          <span
+            className={`answer text-xs`}
+          >
+            {option.answer}
+          </span>
+          <span
+            className={`subtext text-sm text-gray-500 mt-1`}
+          >
+            {option.subtext}
+          </span>
         </div>
       ))}
     </div>

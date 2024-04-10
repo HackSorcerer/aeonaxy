@@ -72,8 +72,8 @@ function App() {
           )}
           {currentStep === 3 && (
             <Question
-              question="What is the answer to the following equations?"
-              subtext="Select the correct answer."
+              question="What is your math comfort level?"
+              subtext="Choose the highest level you feel confident in - you can always adjust later."
               options={
                 <Step3Options
                   onSelect={(option) => handleOptionSelect("step3", option)}
