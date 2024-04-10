@@ -2,21 +2,32 @@ import React, { useState } from "react";
 import Question from "./components/Question";
 import Step1Options from "./utils/Step1Options";
 import Step2Options from "./utils/Step2Options";
-import Step3Options from "./utils/Step3Options";
+import Step4Options from "./utils/Step4Options";
+import Step3Content from "./utils/Step3Content";
+import Step3Image from "./assets/step3.png";
+import Step5Image from "./assets/step5.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
+import StaticPage from "./components/StaticPage";
+import Step5Content from "./utils/Step5Content";
 
 function App() {
   const [currentStep, setCurrentStep] = useState(1);
-  const [totalSteps, setTotalSteps] = useState(3);
+  const [totalSteps, setTotalSteps] = useState(5);
   const [selectedOptions, setSelectedOptions] = useState({
     step1: null,
     step2: null,
     step3: null,
+    step4: null,
+    step5: null,
   });
 
   const handleNextStep = () => {
-    setCurrentStep(currentStep + 1);
+    if (currentStep === 5) {
+      setCurrentStep(currentStep + 2);
+    } else {
+      setCurrentStep(currentStep + 1);
+    }
   };
 
   const handlePrevStep = () => {
@@ -26,6 +37,8 @@ function App() {
   const handleOptionSelect = (step, option) => {
     setSelectedOptions({ ...selectedOptions, [step]: option });
   };
+
+  const isStaticPage = currentStep === 3 || currentStep === 5;
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -71,42 +84,36 @@ function App() {
             />
           )}
           {currentStep === 3 && (
+            <StaticPage image={Step3Image} component={<Step3Content />} />
+          )}
+          {currentStep === 4 && (
             <Question
               question="What is your math comfort level?"
               subtext="Choose the highest level you feel confident in - you can always adjust later."
               options={
-                <Step3Options
-                  onSelect={(option) => handleOptionSelect("step3", option)}
+                <Step4Options
+                  onSelect={(option) => handleOptionSelect("step4", option)}
                 />
               }
-              selectedOption={selectedOptions.step3}
+              selectedOption={selectedOptions.step4}
             />
+          )}
+          {currentStep === 5 && (
+            <StaticPage image={Step5Image} component={<Step5Content />} />
           )}
           {/* Navigation */}
           <div className="navigation mt-8 flex justify-center">
-            {currentStep < totalSteps && (
+            {(
               <button
-                disabled={!selectedOptions[`step${currentStep}`]}
+                disabled={!selectedOptions[`step${currentStep}`] && !isStaticPage}
                 onClick={handleNextStep}
                 className={`px-4 py-2 rounded-md focus:outline-none ${
-                  !selectedOptions[`step${currentStep}`]
+                  (!selectedOptions[`step${currentStep}`] && !isStaticPage)
                     ? "bg-diabledGrey text-white cursor-not-allowed"
                     : "bg-black text-white hover:bg-gray-900"
                 }`}
               >
                 Continue
-              </button>
-            )}
-            {currentStep === totalSteps && (
-              <button
-                disabled={!selectedOptions[`step${currentStep}`]}
-                className={`px-4 py-2 rounded-md focus:outline-none ${
-                  !selectedOptions[`step${currentStep}`]
-                    ? "bg-diabledGrey text-white cursor-not-allowed"
-                    : "bg-black text-white hover:bg-gray-900"
-                }`}
-              >
-                Submit
               </button>
             )}
           </div>

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { BlockMath } from "react-katex";
 import "katex/dist/katex.min.css";
 
-const Step3Options = ({ onSelect }) => {
+const Step4Options = ({ onSelect }) => {
   const options = [
     {
       equation: "5 \\times \\frac{1}{2} = ?",
@@ -63,4 +63,4 @@ const Step3Options = ({ onSelect }) => {
   );
 };
 
-export default Step3Options;
+export default Step4Options;
